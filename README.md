@@ -18,7 +18,7 @@ This simple project demonstrates all the possibility of file based routing of Ne
 
 ## Home page
 
-![](../../../Desktop/Screen Shot 2023-03-26 at 10.08.13 am.png)
+![](img_1.png)
 
 ## Catch all route page.
 
@@ -26,10 +26,10 @@ this page will be displayed when filter is set and query will look like so
 
 `http://localhost:3000/events/2021/5`
 
-![](../../../Desktop/Screen Shot 2023-03-26 at 10.15.09 am.png)
+![](img_2.png)
 
 ## Dynaimc page with id
 
-![](../../../Desktop/Screen Shot 2023-03-26 at 10.18.11 am.png)
+![](img_3.png)
 
 
