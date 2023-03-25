@@ -3,6 +3,8 @@ import {getEventById} from "../../data";
 import EventSummary from "../../components/event-detail/event-summary";
 import EventLogistics from "../../components/event-detail/event-logistics";
 import EventContent from "../../components/event-detail/event-content";
+import {Fragment} from "react";
+import ErrorAlert from "../../components/UI/error-alert";
 
 export default function EventDetailPage() {
 
@@ -11,7 +13,7 @@ export default function EventDetailPage() {
 	const eventDetailsWithId = getEventById(eventid);
 
 	if(!eventDetailsWithId){
-		return <p>Sorry, couldn't find any event associated with that event id. </p>
+		return <ErrorAlert>Sorry, couldn't find any event associated with that event id. </ErrorAlert>
 	}
 
 	return (
