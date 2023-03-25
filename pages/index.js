@@ -1,9 +1,9 @@
 import Head from 'next/head'
-import Image from 'next/image'
-import EventList from "../components/events/EventList";
-import {getAllEvents} from "../data";
-import EventsSearch from "../components/events/events-search";
 import {useRouter} from "next/router";
+
+import {EventList, EventsSearch} from "../components/events";
+import {getAllEvents} from "../data";
+
 
 export default function Home() {
 	const items = getAllEvents();

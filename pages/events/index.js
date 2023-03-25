@@ -1,9 +1,10 @@
 
-import {getAllEvents} from "../../data";
-import EventList from "../../components/events/EventList";
-import {Fragment} from "react";
-import EventsSearch from "../../components/events/events-search";
 import {useRouter} from "next/router";
+import {getAllEvents} from "../../data";
+
+import {EventList, EventsSearch} from "../../components/events";
+
+
 export default function AllEvents() {
 	const items = getAllEvents();
 	const router = useRouter();
@@ -15,10 +16,10 @@ export default function AllEvents() {
 	}
 	return (
 		<div>
-			<Fragment>
+			<>
 				<EventsSearch onSearch={findEventsHandler}/>
 				<EventList items={items}/>
-			</Fragment>
+			</>
 		</div>
 	);
 }
