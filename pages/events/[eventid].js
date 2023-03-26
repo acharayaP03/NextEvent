@@ -1,5 +1,5 @@
 
-import { getAllEvents, getEventById} from "../../helpers/api-utils";
+import { getFeaturedEvents, getEventById} from "../../helpers/api-utils";
 
 import { EventContent, EventLogistics, EventSummary } from '../../components/event-detail'
 
@@ -9,7 +9,9 @@ export default function EventDetailPage(props) {
 	const eventDetailsWithId = props.selectedEventWithId;
 
 	if(!eventDetailsWithId){
-		return <ErrorAlert>Sorry, couldn't find any event associated with that event id. </ErrorAlert>
+		return <div className='center'>
+			<p>Loading, please wait...</p>
+		</div>
 	}
 
 	return (
@@ -24,12 +26,12 @@ export default function EventDetailPage(props) {
 }
 
 export async function getStaticPaths(){
-	const events = await getAllEvents();
+	const events = await getFeaturedEvents();
 
 	const paths = events.map( event => ({ params : { eventid: event.id }}));
 	return {
 		paths,
-		fallback: false
+		fallback: 'blocking'
 	}
 }
 
@@ -41,6 +43,7 @@ export async function getStaticProps (context) {
 	return{
 		props:{
 			selectedEventWithId
-		}
+		},
+		revalidate: 30
 	}
 }
