@@ -1,4 +1,4 @@
-import {Button} from "../UI";
+import {CustomButton} from "../UI";
 import classes from "./events-search.module.css"
 import {useRef} from "react";
 export default function EventsSearch(props){
@@ -46,7 +46,7 @@ export default function EventsSearch(props){
                     </select>
                 </div>
             </div>
-            <Button>Find Events</Button>
+            <CustomButton>Find Events</CustomButton>
         </form>
     )
 }

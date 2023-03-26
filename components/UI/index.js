@@ -1,7 +1,7 @@
-import Button from "./button";
+import CustomButton from "./customButton";
 import ErrorAlert from "./error-alert";
 
 export {
-    Button,
+    CustomButton,
     ErrorAlert
 }

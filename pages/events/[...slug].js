@@ -4,7 +4,7 @@ import {getFilteredEvents} from "../../data";
 
 
 import { EventList, ResultsTitle} from '../../components/events'
-import { Button, ErrorAlert } from '../../components/UI'
+import { CustomButton, ErrorAlert } from '../../components/UI'
 
 
 export default function FilteredEventPage() {
@@ -22,7 +22,7 @@ export default function FilteredEventPage() {
 	if(isNaN(filteredYear) || isNaN(filteredMonth) || filteredYear > 2030 || filteredYear < 2021 || filteredMonth > 12  ){
 		return <>
 			<ErrorAlert>Invalid filter, please adjust your filter and proceed again.</ErrorAlert>
-			<Button link='/events' className='center'>Show All Events</Button>
+			<CustomButton link='/events' className='center'>Show All Events</CustomButton>
 		</>
 	}
 
@@ -36,7 +36,7 @@ export default function FilteredEventPage() {
 		return <>
 			<ErrorAlert>No events found for the chosen filter!</ErrorAlert>
 			<div className='center'>
-				<Button link='/events'>Show All Events</Button>
+				<CustomButton link='/events'>Show All Events</CustomButton>
 			</div>
 		</>
 	}
