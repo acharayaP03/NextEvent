@@ -1,5 +1,5 @@
 import classes from './event-items.module.css'
-import Button from "../UI/button";
+import CustomButton from "../UI/customButton";
 import {AddressIcon, ArrowRightIcon, DateIcon} from "../icons";
 
 
@@ -29,7 +29,7 @@ export default function EventItem({id, title, image, date, location }){
                     </div>
                 </div>
                 <div className={classes.actions}>
-                    <Button link={exploreLink}><span>Explore events</span><span className={classes.icon}><ArrowRightIcon/></span></Button>
+                    <CustomButton link={exploreLink}><span>Explore events</span><span className={classes.icon}><ArrowRightIcon/></span></CustomButton>
                 </div>
             </div>
         </li>

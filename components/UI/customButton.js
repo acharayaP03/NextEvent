@@ -1,6 +1,6 @@
 import Link from "next/link";
 import classes from './button.module.css';
-export default function Button(props){
+export default function CustomButton(props){
     if(props.link){
         return(
             <Link href={props.link} className={classes.btn}>

@@ -1,19 +1,10 @@
 import Head from 'next/head'
-import {useRouter} from "next/router";
 
-import {EventList, EventsSearch} from "../components/events";
-import {getAllEvents} from "../data";
+import {EventList} from "../components/events";
+import {getFeaturedEvents} from "../helpers/api-utils";
 
 
-export default function Home() {
-	const items = getAllEvents();
-	const router = useRouter();
-
-	const findEventsHandler = (year, month) =>{
-		const fullPath = `/events/${year}/${month}`
-
-		router.push(fullPath)
-	}
+export default function Home(props) {
   return (
 		<div>
 			<Head>
@@ -23,9 +14,18 @@ export default function Home() {
 			</Head>
 
 			<main>
-				<EventsSearch onSearch={findEventsHandler}/>
-				<EventList items={items}/>
+				<EventList items={props.featuredEvents}/>
 			</main>
 		</div>
 	);
+}
+
+export async function getStaticProps() {
+	const featuredEvents = await getFeaturedEvents();
+	
+	return {
+		props:{
+			featuredEvents
+		}
+	}
 }
