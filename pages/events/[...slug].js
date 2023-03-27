@@ -12,10 +12,12 @@ export default function FilteredEventPage() {
 
 	const router = useRouter();
 	const { slug } = router.query;
-	console.log(slug)
 
 	const fetcher = (...args) => fetch(...args).then(res => res.json())
 	const { data, error, isLoading } = useSWR('https://next-project-2dfa5-default-rtdb.firebaseio.com/events.json', fetcher);
+
+	const filteredYear = slug && Number(slug[0]); // check if slug exist first then access its index
+	const filteredMonth = slug && Number(slug[1]);
 
 	useEffect(() => {
 		if(data){
@@ -32,21 +34,6 @@ export default function FilteredEventPage() {
 		}
 	}, [data])
 
-	// slug is filter query that is passed from either event page or main page eg: ["2011", "2"]
-	if(!loadedEvents){
-		return <p className="center">Loading data...., please wait.</p>
-	}
-
-	const filteredYear = Number(slug[0]);
-	const filteredMonth = Number(slug[1])
-
-	if(isNaN(filteredYear) || isNaN(filteredMonth) || filteredYear > 2030 || filteredYear < 2021 || filteredMonth > 12 || error){
-		return <>
-			<ErrorAlert>Invalid filter, please adjust your filter and proceed again.</ErrorAlert>
-			<CustomButton link='/events' className='center'>Show All Events</CustomButton>
-		</>
-	}
-
 	let filteredEvents = loadedEvents.filter((event) => {
 		const eventDate = new Date(event.date);
 		return (
@@ -54,10 +41,40 @@ export default function FilteredEventPage() {
 		);
 	});
 
+	/**
+	 * Reusing Head to all components
+	 */
+
+	let pageHeader = (
+		<Head>
+			<title>{ filteredEvents.title }</title>
+			<meta name="description" content={`All events for ${filteredYear}/${filteredMonth}`}/>
+			<link rel="icon" href="/favicon.ico" />
+		</Head>
+	)
+
+	// slug is filter query that is passed from either event page or main page eg: ["2011", "2"]
+	if(!loadedEvents){
+		return <>
+			{ pageHeader }
+			<p className="center">Loading data...., please wait.</p>
+		</>
+	}
+
+
+
+	if(isNaN(filteredYear) || isNaN(filteredMonth) || filteredYear > 2030 || filteredYear < 2021 || filteredMonth > 12 || error){
+		return <>
+			{ pageHeader }
+			<ErrorAlert>Invalid filter, please adjust your filter and proceed again.</ErrorAlert>
+			<CustomButton link='/events' className='center'>Show All Events</CustomButton>
+		</>
+	}
 
 	// check if the events are within the range
 	if(!filteredEvents || filteredEvents.length === 0){
 		return <>
+			{ pageHeader }
 			<ErrorAlert>No events found for the chosen filter!</ErrorAlert>
 			<div className='center'>
 				<CustomButton link='/events'>Show All Events</CustomButton>
@@ -68,11 +85,7 @@ export default function FilteredEventPage() {
 	const date = new Date(filteredYear, filteredMonth - 1)
 	return (
 		<>
-			<Head>
-				<title>{ filteredEvents.title }</title>
-				<meta name="description" content={`All events for ${filteredYear}/${filteredMonth}`}/>
-				<link rel="icon" href="/favicon.ico" />
-			</Head>
+			{ pageHeader }
 			<ResultsTitle date={date}/>
 			<EventList items={filteredEvents}/>
 		</>
