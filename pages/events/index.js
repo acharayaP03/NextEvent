@@ -3,6 +3,7 @@ import {useRouter} from "next/router";
 import {getAllEvents} from "../../helpers/api-utils";
 
 import {EventList, EventsSearch} from "../../components/events";
+import Head from "next/head";
 
 
 export default function AllEvents(props) {
@@ -15,12 +16,16 @@ export default function AllEvents(props) {
 		router.push(fullPath)
 	}
 	return (
-		<div>
-			<>
-				<EventsSearch onSearch={findEventsHandler}/>
-				<EventList items={items}/>
-			</>
-		</div>
+		<>
+			<Head>
+				<title>Browse all events</title>
+				<meta name="description" content="All next js events listing. Pick and choose your favorite." />
+				<link rel="icon" href="/favicon.ico" />
+			</Head>
+			<EventsSearch onSearch={findEventsHandler}/>
+			<EventList items={items}/>
+		</>
+
 	);
 }
 

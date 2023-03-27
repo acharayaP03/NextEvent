@@ -4,6 +4,7 @@ import useSWR from 'swr'
 
 import { EventList, ResultsTitle} from '../../components/events'
 import { CustomButton, ErrorAlert } from '../../components/UI'
+import Head from "next/head";
 
 
 export default function FilteredEventPage() {
@@ -67,6 +68,11 @@ export default function FilteredEventPage() {
 	const date = new Date(filteredYear, filteredMonth - 1)
 	return (
 		<>
+			<Head>
+				<title>{ filteredEvents.title }</title>
+				<meta name="description" content={`All events for ${filteredYear}/${filteredMonth}`}/>
+				<link rel="icon" href="/favicon.ico" />
+			</Head>
 			<ResultsTitle date={date}/>
 			<EventList items={filteredEvents}/>
 		</>
