@@ -4,6 +4,7 @@ import { getFeaturedEvents, getEventById} from "../../helpers/api-utils";
 import { EventContent, EventLogistics, EventSummary } from '../../components/event-detail'
 
 import {ErrorAlert} from "../../components/UI";
+import Head from "next/head";
 
 export default function EventDetailPage(props) {
 	const eventDetailsWithId = props.selectedEventWithId;
@@ -16,6 +17,11 @@ export default function EventDetailPage(props) {
 
 	return (
 		<>
+			<Head>
+				<title>{ eventDetailsWithId.title }</title>
+				<meta name="description" content={eventDetailsWithId.description}/>
+				<link rel="icon" href="/favicon.ico" />
+			</Head>
 			<EventSummary title={eventDetailsWithId.title}/>
 			<EventLogistics date={eventDetailsWithId.date} address={eventDetailsWithId.location} image={eventDetailsWithId.image} imageAlt={eventDetailsWithId.title}/>
 			<EventContent>
