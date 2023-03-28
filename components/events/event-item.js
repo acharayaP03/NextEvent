@@ -1,7 +1,7 @@
 import classes from './event-items.module.css'
 import CustomButton from "../UI/customButton";
 import {AddressIcon, ArrowRightIcon, DateIcon} from "../icons";
-
+import Image from "next/image";
 
 
 export default function EventItem({id, title, image, date, location }){
@@ -15,7 +15,7 @@ export default function EventItem({id, title, image, date, location }){
     const exploreLink = `/events/${id}`
     return(
         <li className={classes.item}>
-            <img src={'/' + image} alt={title}/>
+            <Image src={'/' + image} alt={title} width={250} height={160}/>
             <div className={classes.content}>
                 <div className={classes.summary}>
                     <h2>{title}</h2>
