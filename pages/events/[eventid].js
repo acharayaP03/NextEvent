@@ -5,6 +5,7 @@ import { EventContent, EventLogistics, EventSummary } from '../../components/eve
 
 import {ErrorAlert} from "../../components/UI";
 import Head from "next/head";
+import Comments from "../../components/inputs/comments";
 
 export default function EventDetailPage(props) {
 	const eventDetailsWithId = props.selectedEventWithId;
@@ -27,6 +28,7 @@ export default function EventDetailPage(props) {
 			<EventContent>
 				<p>{eventDetailsWithId.description}</p>
 			</EventContent>
+			<Comments eventId={eventDetailsWithId.id}/>
 		</>
 	);
 }
