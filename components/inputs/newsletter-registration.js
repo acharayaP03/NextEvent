@@ -5,11 +5,6 @@ import {useEffect, useRef} from "react";
 
 function NewsletterRegistration() {
     const emailInputRef = useRef();
-    let enteredEmail = '';
-
-    useEffect(() => {
-        enteredEmail = emailInputRef.current?.value
-    }, [])
 
     async function registrationHandler(event) {
         event.preventDefault();
@@ -18,11 +13,9 @@ function NewsletterRegistration() {
         // optional: validate input
         // send valid data to API
 
-        console.log(enteredEmail)
-
         await fetch('/api/newsletter', {
             method: 'POST',
-            body: JSON.stringify({ email: enteredEmail }),
+            body: JSON.stringify({ email: emailInputRef.current.value }),
             headers:{
                 'Content-Type': 'application/json'
             }
@@ -38,7 +31,7 @@ function NewsletterRegistration() {
             <form onSubmit={registrationHandler}>
                 <div className={classes.control}>
                     <input
-                        type='email'
+                        type='text'
                         id='email'
                         ref={emailInputRef}
                         placeholder='Your email'
