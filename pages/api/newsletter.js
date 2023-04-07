@@ -1,7 +1,7 @@
-
-import { MongoClient } from "mongodb";
+import { create, connectDatabase } from "./helpers";
 
 export default async function handler(req, res){
+    const client = await connectDatabase(res)
 
     if(req.method === 'POST'){
         const userEmail = req.body.email;
@@ -13,12 +13,14 @@ export default async function handler(req, res){
             return;
         }
 
-       const client =  await  MongoClient.connect(
-            'mongodb+srv://acharyap03:yA7Z8cyirFCyIuOx@cluster0.8hbzrjl.mongodb.net/events?retryWrites=true&w=majority'
-        );
-        const db = client.db();
-        await db.collection('emails').insertOne({ email: userEmail });
+        try{
+            await create(client, 'emails',{ email: userEmail });
+            await client.close();
 
+        }catch (error){
+            res.status(500).json({ message: 'Email subscription failed.'})
+            return
+        }
         await client.close();
 
         res.status(201).json({ message: 'Successfully Subscribed'})

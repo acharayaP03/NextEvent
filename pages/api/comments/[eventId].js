@@ -1,15 +1,18 @@
-
-import { MongoClient } from "mongodb";
+import {connectDatabase, create, getDocuments} from "../helpers";
+import {apiError} from "../helpers/apiError";
 
 export default async function handler (req, res) {
     const { eventId } = req.query;
-    const client = await MongoClient.connect('mongodb+srv://acharyap03:yA7Z8cyirFCyIuOx@cluster0.8hbzrjl.mongodb.net/events?retryWrites=true&w=majority')
+    const client = await connectDatabase();
 
     if(req.method === 'POST'){
         const { email, name, text } = req.body;
 
         if(!email.includes('@') || !name || name.trim() === '' || !text || text.trim() === ''){
-            res.status(422).json({ message: 'Invalid input'});
+
+            apiError(res, 422, 'Invalid input provided.')
+
+            await client.close();
             return;
         }
 
@@ -17,18 +20,23 @@ export default async function handler (req, res) {
             email, name, text, eventId
         }
 
-        const db = client.db();
-        const result = await db.collection('comments').insertOne(newComments)
+        try{
+            const result = await create(client, 'comments', newComments);
+            newComments.id = result.insertedId
 
-        newComments.id = result.insertedId
+            return res.status(201).json({ message: 'Comment created', comment: newComments});
 
-        res.status(201).json({ message: 'Comment created', comment: newComments})
+        }catch(error){
+            res.status(500).json({ message: 'Create comment failed.'})
+        }
+
+        await client.close();
+
     }
 
     if(req.method === 'GET'){
-        const db = client.db();
 
-        const documents = await db.collection('comments').find().sort({ _id: -1 }).toArray();
+        const documents = await getDocuments(client, 'comments', { _id: -1 }, { eventId })
         res.status(200).json({ comments: documents })
     }
 
