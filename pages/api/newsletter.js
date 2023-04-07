@@ -1,19 +1,4 @@
-
-import { MongoClient } from "mongodb";
-async function connectDatabase(res) {
-    try{
-        return await MongoClient.connect('mongodb+srv://acharyap03:yA7Z8cyirFCyIuOx@cluster0.8hbzrjl.mongodb.net/events?retryWrites=true&w=majority')
-    }catch (error){
-        res.status(500).json({ message : 'Connection failed...'});
-        return;
-    }
-
-}
-
-async function createSubscription (client, document){
-    const db = client.db();
-    await db.collection('emails').insertOne(document);
-}
+import { create, connectDatabase } from "./helpers";
 
 export default async function handler(req, res){
     const client = await connectDatabase(res)
@@ -29,7 +14,7 @@ export default async function handler(req, res){
         }
 
         try{
-            await createSubscription(client, { email: userEmail });
+            await create(client, 'emails',{ email: userEmail });
             await client.close();
 
         }catch (error){
