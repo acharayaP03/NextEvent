@@ -15,7 +15,7 @@ function Comments(props) {
         if(showComments){
             fetch('/api/comments/' + eventId).then( response => response.json()).then(data => setComments(data.comments))
         }
-    }, [showComments])
+    }, [showComments, eventId])
 
     function toggleCommentsHandler() {
         setShowComments((prevStatus) => !prevStatus);

@@ -10,7 +10,7 @@ class MyDocument extends Document {
     render() {
         return(
             <Html lang='en'>
-                <Head/>
+                <Head title="Next Event"/>
                 <body>
                     <div  id="overlay"/>
                     <Main/>

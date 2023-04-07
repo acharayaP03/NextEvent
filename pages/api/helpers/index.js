@@ -13,7 +13,6 @@ export async function connectDatabase(res) {
 
 export async function create (client, dbCollection, document){
     const db = client.db();
-    console.log('Document: ', document)
     return await db.collection(dbCollection).insertOne(document);
 }
 
