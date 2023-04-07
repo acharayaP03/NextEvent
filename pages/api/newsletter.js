@@ -1,4 +1,7 @@
-export default function handler(req, res){
+
+import { MongoClient } from "mongodb";
+
+export default async function handler(req, res){
 
     if(req.method === 'POST'){
         const userEmail = req.body.email;
@@ -10,7 +13,14 @@ export default function handler(req, res){
             return;
         }
 
-        console.log(userEmail)
-        return res.status(201).json({ message: 'Successfully Subscribed'})
+       const client =  await  MongoClient.connect(
+            'mongodb+srv://acharyap03:yA7Z8cyirFCyIuOx@cluster0.8hbzrjl.mongodb.net/newsletter?retryWrites=true&w=majority'
+        );
+        const db = client.db();
+        await db.collection('emails').insertOne({ email: userEmail });
+
+        await client.close();
+
+        res.status(201).json({ message: 'Successfully Subscribed'})
     }
 }
