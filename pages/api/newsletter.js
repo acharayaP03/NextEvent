@@ -14,7 +14,7 @@ export default async function handler(req, res){
         }
 
        const client =  await  MongoClient.connect(
-            'mongodb+srv://acharyap03:yA7Z8cyirFCyIuOx@cluster0.8hbzrjl.mongodb.net/newsletter?retryWrites=true&w=majority'
+            'mongodb+srv://acharyap03:yA7Z8cyirFCyIuOx@cluster0.8hbzrjl.mongodb.net/events?retryWrites=true&w=majority'
         );
         const db = client.db();
         await db.collection('emails').insertOne({ email: userEmail });
