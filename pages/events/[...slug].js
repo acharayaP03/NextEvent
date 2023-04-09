@@ -14,7 +14,7 @@ export default function FilteredEventPage() {
 	const { slug } = router.query;
 
 	const fetcher = (...args) => fetch(...args).then(res => res.json())
-	const { data, error, isLoading } = useSWR('https://next-project-2dfa5-default-rtdb.firebaseio.com/events.json', fetcher);
+	const { data, error, isLoading } = useSWR(process.env.FIREBASE_URI, fetcher);
 
 	const filteredYear = slug && Number(slug[0]); // check if slug exist first then access its index
 	const filteredMonth = slug && Number(slug[1]);

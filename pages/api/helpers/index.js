@@ -2,7 +2,7 @@
 import { MongoClient } from "mongodb";
 export async function connectDatabase(res) {
     try{
-        const connection = await MongoClient.connect('mongodb+srv://acharyap03:yA7Z8cyirFCyIuOx@cluster0.8hbzrjl.mongodb.net/events?retryWrites=true&w=majority');
+        const connection = await MongoClient.connect(process.env.MONGODB_URI);
         return connection
     }catch (error){
         res.status(500).json({ message : 'Connection failed...'});
