@@ -1,26 +1,53 @@
 
 
 import classes from './newsletter-registration.module.css';
-import {useEffect, useRef} from "react";
+import {useContext, useRef} from "react";
+import NotificationContext from "../../store/notification-context";
 
 function NewsletterRegistration() {
+    const notificationCtx = useContext(NotificationContext)
     const emailInputRef = useRef();
 
     async function registrationHandler(event) {
         event.preventDefault();
 
-        // fetch user input (state or refs)
-        // optional: validate input
-        // send valid data to API
+        notificationCtx.showNotification({
+            title: 'Signing up...',
+            message: 'Registering for newsletter.',
+            status: 'pending'
+        })
+        try{
+            const response = await fetch('/api/newsletter', {
+                method: 'POST',
+                body: JSON.stringify({ email: emailInputRef.current?.value }),
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            });
 
-        await fetch('/api/newsletter', {
-            method: 'POST',
-            body: JSON.stringify({ email: emailInputRef.current.value }),
-            headers:{
-                'Content-Type': 'application/json'
+            const results = await response.json();
+
+            /**
+             * this if check is needed if response fails so that error can make it to catch block.
+             * or else the notification will show pending state, and we wont know what went wrong.
+             */
+            if(!response.ok){
+                throw new Error(response.message || 'Something went wrong!')
             }
-        }).then( response => response.json())
-            .then((data) => console.log(data))
+            notificationCtx.showNotification({
+                title: 'Success!',
+                message: 'Your email have been subscribed',
+                status: 'success'
+            })
+            return results;
+
+        }catch(error){
+            notificationCtx.showNotification({
+                title: 'Error',
+                message: error.message || 'Something went wrong.',
+                status: 'error'
+            })
+        }
     }
 
 
