@@ -16,35 +16,38 @@ function NewsletterRegistration() {
             message: 'Registering for newsletter.',
             status: 'pending'
         })
+        try{
+            const response = await fetch('/api/newsletter', {
+                method: 'POST',
+                body: JSON.stringify({ email: emailInputRef.current?.value }),
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            });
 
-        await fetch('/api/newsletter', {
-            method: 'POST',
-            body: JSON.stringify({ email: emailInputRef.current?.value }),
-            headers:{
-                'Content-Type': 'application/json'
-            }
-        }).then( response => {
-            if(response.ok){
-                return response.json();
-            }
+            const results = await response.json();
 
-            return response.json().then(data => {
-                throw new Error(data.message || 'Something went wrong!')
+            /**
+             * this if check is needed if response fails so that error can make it to catch block.
+             * or else the notification will show pending state, and we wont know what went wrong.
+             */
+            if(!response.ok){
+                throw new Error(response.message || 'Something went wrong!')
+            }
+            notificationCtx.showNotification({
+                title: 'Success!',
+                message: 'Your email have been subscribed',
+                status: 'success'
             })
-        })
-            .then((data) => {
-                notificationCtx.showNotification({
-                    title: 'Success!',
-                    message: 'Your email have been subscribed',
-                    status: 'success'
-                })
-            }).catch( error => {
-                notificationCtx.showNotification({
-                    title: 'Error',
-                    message: error.message || 'Something went wrong.',
-                    status: 'error'
-                })
+            return results;
+
+        }catch(error){
+            notificationCtx.showNotification({
+                title: 'Error',
+                message: error.message || 'Something went wrong.',
+                status: 'error'
             })
+        }
     }
 
 
