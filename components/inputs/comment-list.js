@@ -12,8 +12,8 @@ function CommentList(props) {
                             By <address>{ item.name }</address>
                         </div>
                     </li>
-                )):
-                     []
+                ))
+                 : <li>Loading...</li>
             }
         </ul>
     );
